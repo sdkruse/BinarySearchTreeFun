@@ -68,6 +68,8 @@ public class BSTNode<T extends Comparable<T>> {
 	// add a main method to test the code
 	public static void main(String [] args) 
 	{
+		
+		//test height methods
 		BSTNode<String> nodeOne = new BSTNode<String>("Node1");
 		BSTNode<String> nodeTwo = new BSTNode<String>("Node2");
 		BSTNode<String> nodeThree = new BSTNode<String>("Node3");
@@ -75,12 +77,15 @@ public class BSTNode<T extends Comparable<T>> {
 		BSTNode<String> node2 = new BSTNode<String>("Node2");
 		BSTNode<String> node3 = new BSTNode<String>("Node3");
 		
-		nodeOne.print();
 		nodeOne.setLeft(nodeTwo);
+		
 		nodeOne.setRight(nodeThree);
 		
-		nodeOne.getLeft().setLeft(node2);
+		nodeThree.setLeft(node1);
+		
+		node1.setRight(node2);
 	
+		node2.setRight(node3);
 		
 		System.out.println(nodeOne.getHeight());
 	}
