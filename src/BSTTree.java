@@ -2,13 +2,16 @@
 public class BSTTree<T extends Comparable<T>> implements BinarySearchTreeADT<T> {
 
 	private BSTNode<T> root;
+	private int size;
 
 	public BSTTree() {
 		root = null;
+		size = 0;
 	}
 
 	public void insert(T element) {
 		root = insert(root, element);
+		size++;
 	}
 
 	private BSTNode<T> insert(BSTNode<T> current, T element) {
@@ -106,24 +109,47 @@ public class BSTTree<T extends Comparable<T>> implements BinarySearchTreeADT<T> 
 
 	@Override
 	public int getSize() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
 	@Override
 	public String preOrderTraversal() {
-		// TODO Auto-generated method stub
-		return null;
+		String result = "";
+		return preOrderTraversal(result, this.root);
+	}
+	
+	private String preOrderTraversal(String result, BSTNode<T> current) {
+		if(current == null) {
+			return result;
+		}
+		
+		result = result + " " + current.getData();
+		result = preOrderTraversal(result, current.getLeft());		
+		result = preOrderTraversal(result, current.getRight());
+		
+		return result;
 	}
 
 	@Override
 	public String inOrderTraversal() {
-		// TODO Auto-generated method stub
-		return null;
+		String result = "";
+		return inOrderTraversal(result, this.root);
+	}
+	
+	private String inOrderTraversal(String result, BSTNode<T> current) {
+		if(current == null) {
+			return result;
+		}
+		
+		result = inOrderTraversal(result, current.getLeft());
+		result = result + current.getData();
+		result = inOrderTraversal(result, current.getRight());
+		
+		return result;
 	}
 
 	public void postOrderTraversal() {
-		postOrderTraversal(root);
+		postOrderTraversal(this.root);
 	}
 
 	private void postOrderTraversal(BSTNode<T> current) {
@@ -159,8 +185,14 @@ public class BSTTree<T extends Comparable<T>> implements BinarySearchTreeADT<T> 
 		tree.insert(33);
 		tree.insert(22);
 		tree.insert(12);
+		tree.insert(13);
+		tree.insert(5);
+		tree.insert(17);
+		tree.insert(139);
 		tree.printSideways();
-		tree.postOrderTraversal();
+		System.out.println("preOrder");
+		System.out.println(tree.preOrderTraversal());
+	
 	}
 
 }
