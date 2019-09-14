@@ -25,20 +25,29 @@ public class BSTTree<T extends Comparable<T>> implements BinarySearchTreeADT<T> 
 
 		return current;
 	}
-
+	
 	@Override
 	public void remove(T element) {
+	Boolean removed = remove(element, this.root);
+	}
+
+	
+	public boolean remove(T element, BSTNode<T> current) {
 
 		BSTNode<T> par = null;
-		BSTNode<T> cur = this.root;
+		BSTNode<T> cur = current;
 		boolean isLeft = false;
+		
 
 		while (cur != null) {
+			
 			if (element.compareTo(cur.getData()) == 0) {// you found the node
+				
 				if (cur.getLeft() == null && cur.getRight() == null) { // if the current node has no kids
 					if (cur.getData().compareTo(this.root.getData()) == 0) {// handle the case when current is the root
 						this.root = null;
 					} else {// if cur is a leaf node
+						cur = null;
 						if (isLeft) {// if current is the left child
 							par.setLeft(null);
 						} else {
@@ -46,44 +55,52 @@ public class BSTTree<T extends Comparable<T>> implements BinarySearchTreeADT<T> 
 						}
 					}
 				}else if (cur.getLeft() != null && cur.getRight() == null) {// if current has one child and that child is the left child
+					
 					if (isLeft) {// if the current is the left child
 						par.setLeft(cur.getLeft());
+						cur = null;
 					} else {// if current is the right child
 						par.setRight(cur.getLeft());
+						cur = null;
 					}
 				}else if (cur.getLeft() == null && cur.getRight() != null) {// or if current's has only one right child
+					
 						if (isLeft) {// if the current is the left child
 							par.setLeft(cur.getLeft());
 						} else {// if current is the right child
 							par.setRight(cur.getLeft());
 						}
+						cur = null;
 					}else {
 						
 						BSTNode<T> suc = cur.getRight();
+					
 						while(suc.getLeft() != null) {
 							suc = suc.getLeft();
 						}
+						remove(suc.getData(), cur.getRight());
 						
 						if(isLeft) {
-							par.setLeft(suc);
-							this.remove(suc.getData());
+						par.setLeft(suc);
 						}else {
-							par.setRight(suc);
-							this.remove(suc.getData());
+							par.setRight(suc);	
 						}
+	
 					}
 			} else if (element.compareTo(cur.getData()) < 0) {
+				System.out.println("left");
 				par = cur;
 				cur = cur.getLeft();
 				isLeft = true;
 			} else {
+				System.out.println("right");
 				par = cur;
 				cur = cur.getRight();
 				isLeft = false;
 			}
 
 		}
-
+		return true;
 	}
 
 	@Override
@@ -140,9 +157,8 @@ public class BSTTree<T extends Comparable<T>> implements BinarySearchTreeADT<T> 
 		if(current == null) {
 			return result;
 		}
-		
 		result = inOrderTraversal(result, current.getLeft());
-		result = result + current.getData();
+		result = result + " " + current.getData();
 		result = inOrderTraversal(result, current.getRight());
 		
 		return result;
@@ -181,7 +197,7 @@ public class BSTTree<T extends Comparable<T>> implements BinarySearchTreeADT<T> 
 	}
 
 	public static void main(String[] args) {
-		BSTTree<Integer> tree = new BSTTree<Integer>();
+	BSTTree<Integer> tree = new BSTTree<Integer>();
 		tree.insert(33);
 		tree.insert(22);
 		tree.insert(12);
@@ -190,8 +206,15 @@ public class BSTTree<T extends Comparable<T>> implements BinarySearchTreeADT<T> 
 		tree.insert(17);
 		tree.insert(139);
 		tree.printSideways();
-		System.out.println("preOrder");
-		System.out.println(tree.preOrderTraversal());
+		/**	System.out.println("preOrder");
+		System.out.println(tree.inOrderTraversal());
+		tree.remove(139);
+		System.out.println(tree.inOrderTraversal());*/
+		System.out.println(tree.inOrderTraversal());
+		tree.remove(12);
+		System.out.println("here");
+		System.out.println(tree.inOrderTraversal());
+		
 	
 	}
 
