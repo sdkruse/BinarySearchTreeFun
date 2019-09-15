@@ -33,6 +33,7 @@
 /////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
 /**
  * The implementation of our binary search tree.
+ * 
  * @author SKruse
  *
  * @param <T>
@@ -46,21 +47,24 @@ public class BSTTree<T extends Comparable<T>> implements BinarySearchTreeADT<T> 
 		root = null;
 		size = 0;
 	}
-/**
- * If the node is not a repeat, add it to the tree using recursion.
- */
+
+	/**
+	 * If the node is not a repeat, add it to the tree using recursion.
+	 */
 	public void insert(T element) {
 		if (!this.contains(element)) {
 			root = insert(root, element);
 			size++;
 		}
 	}
-/**
- * The recursive insertion of a node.
- * @param current the current node.
- * @param element is the data to add.
- * @return
- */
+
+	/**
+	 * The recursive insertion of a node.
+	 * 
+	 * @param current the current node.
+	 * @param element is the data to add.
+	 * @return
+	 */
 	private BSTNode<T> insert(BSTNode<T> current, T element) {
 
 		if (current == null) {
@@ -84,18 +88,19 @@ public class BSTTree<T extends Comparable<T>> implements BinarySearchTreeADT<T> 
 			size--;
 		}
 	}
-/**
- * The most complicated algorithm in the assignment.
- * If the element to be removed is a leaf node, just set its parent's pointer
- *  to null. If it has on child, just set the parent's point to its child.
- *  If the node to be removed has two children, find its in order successor.
- * 
- * @param element
- * @param current
- * @return
- */
+
+	/**
+	 * The most complicated algorithm in the assignment. If the element to be
+	 * removed is a leaf node, just set its parent's pointer to null. If it has on
+	 * child, just set the parent's point to its child. If the node to be removed
+	 * has two children, find its in order successor.
+	 * 
+	 * @param element
+	 * @param current
+	 * @return
+	 */
 	public boolean remove(T element, BSTNode<T> current) {
-		
+
 		BSTNode<T> par = null;
 		BSTNode<T> cur = current;
 		boolean isLeft = false;
@@ -135,7 +140,8 @@ public class BSTTree<T extends Comparable<T>> implements BinarySearchTreeADT<T> 
 					}
 					cur = null;
 				} else {
-					//if cur has two children, find in order successor, replace current with successor
+					// if cur has two children, find in order successor, replace current with
+					// successor
 					BSTNode<T> suc = cur.getRight();
 					while (suc.getLeft() != null) {
 						suc = suc.getLeft();
@@ -171,23 +177,31 @@ public class BSTTree<T extends Comparable<T>> implements BinarySearchTreeADT<T> 
 
 	@Override
 	public boolean contains(T element) {
-		BSTNode<T> cur = root;
-		while (cur != null) {
-			if (cur.getData().compareTo(element) == 0) {
-				return true;
-			} else if (cur.getData().compareTo(element) < 0) {
-				cur = cur.getLeft();
-			} else {
-				cur = cur.getRight();
-			}
+		BSTNode<T> node = contains(root, element);
+		if (node == null) {
+			return false;
+		} else {
+			return true;
 		}
 
-		return false;
+	}
+
+	private BSTNode<T> contains(BSTNode<T> node, T element) {
+
+		if (node == null || element.compareTo(node.getData()) == 0) {
+			return node;
+		}
+		if (element.compareTo(node.getData()) < 0) {
+			return contains(node.getLeft(), element);
+		}
+
+		return contains(node.getRight(), element);
+
 	}
 
 	@Override
 	public int getHeight() {
-		return this.root.getHeight();
+		return root.getHeight();
 	}
 
 	@Override
@@ -279,8 +293,10 @@ public class BSTTree<T extends Comparable<T>> implements BinarySearchTreeADT<T> 
 		 */
 		System.out.println(tree.inOrderTraversal());
 		System.out.println("height " + tree.getHeight());
+		System.out.println("contains " + tree.contains(13));
 		tree.remove(13);
 		tree.printSideways();
+		System.out.println("contains " + tree.contains(13));
 		System.out.println(tree.inOrderTraversal());
 		System.out.println("height " + tree.getHeight());
 		System.out.println("size = " + tree.getSize());

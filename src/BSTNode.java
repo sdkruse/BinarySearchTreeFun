@@ -139,7 +139,7 @@ public class BSTNode<T extends Comparable<T>> {
 
 	// add a main method to test the code
 	/**
-	 * THis just contains some tests to show the above metods work.
+	 * THis just contains some tests to show the above methods work.
 	 * 
 	 * @param args
 	 */

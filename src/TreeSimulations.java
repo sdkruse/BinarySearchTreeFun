@@ -32,23 +32,26 @@
 // Online Sources:  tinyurl.com/AK-02-20-19 Andrew gave this to us
 //
 /////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
+import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.Scanner;
 
 /**
- * This class simulates the creation of many trees.
- * Its main method will show some summary statistics on our simulations.
+ * This class simulates the creation of many trees. Its main method will show
+ * some summary statistics on our simulations.
+ * 
  * @author SKruse
  *
  */
 public class TreeSimulations {
 	/**
-	 * This class creates and iterates the through the number of trees defined
-	 * by the user.
-	 * @param randSeed is the seed for the number generator
-	 * @param treeSize is the number of nodes.
+	 * This class creates and iterates the through the number of trees defined by
+	 * the user.
+	 * 
+	 * @param randSeed  is the seed for the number generator
+	 * @param treeSize  is the number of nodes.
 	 * @param randRange the greatest number that can be added.
-	 * @param numTrees is the number of trees to create.
+	 * @param numTrees  is the number of trees to create.
 	 */
 	public static void testManyTrees(int randSeed, int treeSize, int randRange, int numTrees) {
 		// initial setup
@@ -69,7 +72,7 @@ public class TreeSimulations {
 
 			// continue while the size of this tree is less than treeSize
 
-			while (tree.getSize() <= treeSize) {
+			while (tree.getSize() < treeSize) {
 				// use this code to insert a random Integer into a tree
 				tree.insert(rnd.nextInt(randRange));
 			}
@@ -79,9 +82,6 @@ public class TreeSimulations {
 			if (height == tree.getSize()) {
 				tree.printSideways();
 			}
-			System.out.println("height " + tree.getHeight());
-			System.out.println("Size " + tree.getSize());
-
 			curHeight = tree.getHeight();
 			// initialize heights
 			if (i == 0) {
@@ -99,23 +99,26 @@ public class TreeSimulations {
 			if (minHeight > curHeight) {
 				minHeight = curHeight;
 			}
-			//calculate a moving average.
+			// calculate a moving average.
 			if (i > 0) {
 				double j = i;
 				avgHeight = (curHeight + j * avgHeight) / (j + 1);
 			}
 
 		}
-
+		DecimalFormat avgFormat = new DecimalFormat("####.###");
+		// System.out.println(df.format(PI));
 		///// after all simulated trees made, output statistics
 		System.out.println("min height was : " + minHeight);
 		System.out.println("max height was : " + maxHeight);
-		System.out.println("avg height was : " + avgHeight);
+		System.out.println("avg height was : " + avgFormat.format(avgHeight));
 	} // testManyTrees
-/**
- * This will get the inputs from the user for the simulation.
- * @param args
- */
+
+	/**
+	 * This will get the inputs from the user for the simulation.
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		System.out.println("Welcome to the BST Simulator.");
 		Scanner scnr = new Scanner(System.in);
@@ -123,9 +126,9 @@ public class TreeSimulations {
 		int randSeed = scnr.nextInt();
 		System.out.println("Enter the number of Integers to be placed in each tree: ");
 		int treeSize = scnr.nextInt();
-		System.out.println("enter the maximum random integer to be generated: ");
+		System.out.println("Enter the maximum random integer to be generated: ");
 		int randRange = scnr.nextInt();
-		System.out.println("enter the number of trees to be simulated: ");
+		System.out.println("Enter the number of trees to be simulated: ");
 		int numTrees = scnr.nextInt();
 		testManyTrees(randSeed, treeSize, randRange, numTrees);
 		scnr.close();
